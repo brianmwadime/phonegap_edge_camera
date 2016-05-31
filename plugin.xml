@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rim="http://www.blackberry.com/ns/widgets"
+    id="com.fortune.edgecamera"
+    version="0.0.1">
+
+<name>Edge detection camera</name>
+<description>PhoneGap plugin to support a custom edge detection camera</description>
+<author>Brian Mwadime and others</author>
+
+<info>
+    Edge detection plugin
+</info>
+
+<js-module src="www/js/edge_camera.js" name="EdgeCamera">
+    <clobbers target="navigator.EdgeCamera" />
+</js-module>
+
+<engines>
+    <engine name="cordova" version=">=3.1.0" />
+</engines>
+
+<platform name="ios">
+
+    <!-- config file -->
+    <config-file target="config.xml" parent="/*">
+        <feature name="EdgeCamera">
+            <param name="ios-package" value="EdgeCamera" />
+        </feature>
+    </config-file>
+
+    <!-- core CustomCamera header and source files -->
+    <header-file src="platforms/ios/EdgeCamera/Classes/EdgeCamera.h" />
+    <header-file src="platforms/ios/EdgeCamera/Classes/ViewController.h" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/EdgeCamera.m" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/ViewController.m" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.h" />
+    <resource-file src="platforms/ios/EdgeCamera/Classes/Main.storyboard" />
+
+</platform>
+
+</plugin>
