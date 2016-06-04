@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-edgecamera.EdgeCamera", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -18,19 +19,26 @@
  * under the License.
  *
 */
+
+var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec'),
     // EdgeCamera = require('./EdgeCamera');
     // XXX: commented out
-    //CameraPopoverHandle = require('./CameraPopoverHandle');
 
 /**
  * @namespace navigator
  */
 
 /**
- * @exports camera
+ * @exports edgeCamera
  */
 var edgeCameraExport = {};
+
+// Tack on the Camera Constants to the base camera plugin.
+// for (var key in Camera) {
+//     cameraExport[key] = Camera[key];
+// }
+
 /**
  * Callback function that provides an error message.
  * @callback module:camera.onError
@@ -124,18 +132,63 @@ var edgeCameraExport = {};
  * More examples [here](#camera-getPicture-examples). Quirks [here](#camera-getPicture-quirks).
  *
  * @example
- * navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+ * navigator.camera.takePicture(cameraSuccess, cameraError, cameraOptions);
  * @param {module:camera.onSuccess} successCallback
  * @param {module:camera.onError} errorCallback
  * @param {module:camera.CameraOptions} options CameraOptions
  */
-edgeEameraExport.takePicture = function(successCallback, errorCallback, options) {
+edgeCameraExport.takePicture = function(successCallback, errorCallback, options) {
+    // argscheck.checkArgs('fFO', 'Camera.getPicture', arguments);
     options = options || {};
+    // var getValue = argscheck.getValue;
 
+    // var quality = getValue(options.quality, 50);
+    // var destinationType = getValue(options.destinationType, Camera.DestinationType.FILE_URI);
+    // var sourceType = getValue(options.sourceType, Camera.PictureSourceType.CAMERA);
+    // var targetWidth = getValue(options.targetWidth, -1);
+    // var targetHeight = getValue(options.targetHeight, -1);
+    // var encodingType = getValue(options.encodingType, Camera.EncodingType.JPEG);
+    // var mediaType = getValue(options.mediaType, Camera.MediaType.PICTURE);
+    // var allowEdit = !!options.allowEdit;
+    // var correctOrientation = !!options.correctOrientation;
+    // var saveToPhotoAlbum = !!options.saveToPhotoAlbum;
+    // var popoverOptions = getValue(options.popoverOptions, null);
+    // var cameraDirection = getValue(options.cameraDirection, Camera.Direction.BACK);
 
-    exec(successCallback, errorCallback, "EdgeCamera", "takePicture", args);
+    // var args = [quality, destinationType, sourceType, targetWidth, targetHeight, encodingType,
+    //             mediaType, allowEdit, correctOrientation, saveToPhotoAlbum, popoverOptions, cameraDirection];
+
+    // exec(successCallback, errorCallback, "Camera", "takePicture", args);
+    exec(successCallback, errorCallback, "EdgeCamera", "takePicture", []);
     // XXX: commented out
     //return new CameraPopoverHandle();
 };
 
-module.exports = edgeEameraExport;
+/**
+ * Removes intermediate image files that are kept in temporary storage
+ * after calling [`camera.getPicture`]{@link module:camera.getPicture}. Applies only when the value of
+ * `Camera.sourceType` equals `Camera.PictureSourceType.CAMERA` and the
+ * `Camera.destinationType` equals `Camera.DestinationType.FILE_URI`.
+ *
+ * __Supported Platforms__
+ *
+ * - iOS
+ *
+ * @example
+ * navigator.camera.cleanup(onSuccess, onFail);
+ *
+ * function onSuccess() {
+ *     console.log("Camera cleanup success.")
+ * }
+ *
+ * function onFail(message) {
+ *     alert('Failed because: ' + message);
+ * }
+ */
+// cameraExport.cleanup = function(successCallback, errorCallback) {
+//     exec(successCallback, errorCallback, "Camera", "cleanup", []);
+// };
+
+module.exports = edgeCameraExport;
+
+});
