@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     id="com.fortune.edgecamera"
-    version="1.5.0">
+    version="1.6.0">
 
 <name>Edge detection camera</name>
 <description>PhoneGap plugin to support a custom edge detection camera</description>
