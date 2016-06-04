@@ -19,7 +19,7 @@
  *
 */
     exec = require('cordova/exec'),
-    EdgeCamera = require('./EdgeCamera');
+    // EdgeCamera = require('./EdgeCamera');
     // XXX: commented out
     //CameraPopoverHandle = require('./CameraPopoverHandle');
 
