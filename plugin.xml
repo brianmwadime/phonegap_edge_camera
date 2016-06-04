@@ -14,7 +14,7 @@
 </info>
 
 <js-module src="www/js/EdgeCamera.js" name="EdgeCamera">
-    <clobbers target="navigator.EdgeCamera" />
+    <clobbers target="EdgeCamera" />
 </js-module>
 
 <platform name="ios">
