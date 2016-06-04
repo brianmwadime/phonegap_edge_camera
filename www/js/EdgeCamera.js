@@ -21,7 +21,7 @@ cordova.define("cordova-plugin-edgecamera.EdgeCamera", function(require, exports
 */
 
 var argscheck = require('cordova/argscheck'),
-    exec = require('cordova/exec'),
+    exec = require('cordova/exec');
     // EdgeCamera = require('./EdgeCamera');
     // XXX: commented out
 
