@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-edgecamera",
+  "version": "1.7.0",
+  "description": "Cordova plugin to support a custom edge detection camera",
+  "cordova": {
+    "id": "cordova-plugin-edgecamera",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brianmwadime/phonegap_edge_camera.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "Brian Mwadime",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brianmwadime/phonegap_edge_camera/issues"
+  },
+  "homepage": "https://github.com/brianmwadime/phonegap_edge_camera#readme"
+}
