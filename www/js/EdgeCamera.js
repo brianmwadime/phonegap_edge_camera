@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-edgecamera.EdgeCamera", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -190,5 +189,3 @@ edgeCameraExport.takePicture = function(successCallback, errorCallback, options)
 // };
 
 module.exports = edgeCameraExport;
-
-});

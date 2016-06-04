@@ -5,7 +5,7 @@
 //  Created by Maximilian Mackh on 11/01/15.
 //  Copyright (c) 2015 Maximilian Mackh. All rights reserved.
 //
-
+#import "EdgeCamera.h"
 #import "ViewController.h"
 
 #import "IPDFCameraViewController.h"
@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [self.cameraViewController setupCameraView];
     [self.cameraViewController setEnableBorderDetection:YES];
     [self updateTitleLabel];
@@ -53,9 +53,9 @@
     if (sender.state == UIGestureRecognizerStateRecognized)
     {
         CGPoint location = [sender locationInView:self.cameraViewController];
-        
+
         [self focusIndicatorAnimateToPoint:location];
-        
+
         [self.cameraViewController focusAtPoint:location completionHandler:^
          {
              [self focusIndicatorAnimateToPoint:location];
@@ -68,7 +68,7 @@
     [self.focusIndicator setCenter:targetPoint];
     self.focusIndicator.alpha = 0.0;
     self.focusIndicator.hidden = NO;
-    
+
     [UIView animateWithDuration:0.4 animations:^
     {
          self.focusIndicator.alpha = 1.0;
@@ -111,7 +111,7 @@
     animation.subtype = kCATransitionFromBottom;
     animation.duration = 0.35;
     [self.titleLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
-    
+
     NSString *filterMode = (self.cameraViewController.cameraViewType == IPDFCameraViewTypeBlackAndWhite) ? @"TEXT FILTER" : @"COLOR FILTER";
     self.titleLabel.text = [filterMode stringByAppendingFormat:@" | %@",(self.cameraViewController.isBorderDetectionEnabled)?@"AUTOCROP On":@"AUTOCROP Off"];
 }
@@ -129,7 +129,7 @@
 - (IBAction)captureButton:(id)sender
 {
 //    __weak typeof(self) weakSelf = self;
-    
+
     [self.cameraViewController captureImageWithCompletionHander:^(NSString *imageFilePath)
     {
         UIImageView *captureImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:imageFilePath]];
@@ -139,10 +139,10 @@
         captureImageView.contentMode = UIViewContentModeScaleAspectFit;
         captureImageView.userInteractionEnabled = YES;
         [self.view addSubview:captureImageView];
-        
+
         UITapGestureRecognizer *dismissTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPreview:)];
         [captureImageView addGestureRecognizer:dismissTap];
-        
+
         [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^
         {
             captureImageView.frame = self.view.bounds;

@@ -24,7 +24,7 @@
     self.latestCommand = command;
 
     // Make the overlay view controller.
-    self.overlay = [[ViewController alloc] init];
+    self.overlay = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
 //    [self.overlay set ];
     self.overlay.plugin = self;
 
