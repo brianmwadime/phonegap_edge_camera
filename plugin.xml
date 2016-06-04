@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:rim="http://www.blackberry.com/ns/widgets"
-    id="com.fortune.edgecamera"
-    version="1.6.0">
+    id="cordova-plugin-edgecamera"
+    version="1.7.0">
 
 <name>Edge detection camera</name>
-<description>PhoneGap plugin to support a custom edge detection camera</description>
+<description>Cordova plugin to support a custom edge detection camera</description>
 <author>Brian Mwadime and others</author>
 <repo>https://github.com/brianmwadime/phonegap_edge_camera.git</repo>
 <issue>https://github.com/brianmwadime/phonegap_edge_camera/issues</issue>
@@ -15,8 +13,8 @@
     Edge detection plugin
 </info>
 
-<js-module src="www/js/edge_camera.js" name="EdgeCamera">
-    <clobbers target="cordova.plugins.EdgeCamera" />
+<js-module src="www/js/EdgeCamera.js" name="EdgeCamera">
+    <clobbers target="EdgeCamera" />
 </js-module>
 
 <platform name="ios">
@@ -35,11 +33,12 @@
     <source-file src="platforms/ios/EdgeCamera/Classes/ViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.h" />
-    <resource-file src="platforms/ios/EdgeCamera/Classes/ViewController.xib" />
 
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/capture_button.imageset/capture_button@2x.png" />
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator.png" />
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator@2x.png" />
+
+    <resource-file src="platforms/ios/EdgeCamera/Classes/ViewController.xib" />
 
     <framework src="Foundation.framework" />
     <framework src="SystemConfiguration.framework" />
