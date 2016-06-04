@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     id="com.fortune.edgecamera"
-    version="1.0.0">
+    version="1.5.0">
 
 <name>Edge detection camera</name>
 <description>PhoneGap plugin to support a custom edge detection camera</description>
@@ -36,6 +36,19 @@
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.h" />
     <resource-file src="platforms/ios/EdgeCamera/Classes/ViewController.xib" />
+
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/capture_button.imageset/capture_button@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator@2x.png" />
+
+    <framework src="Foundation.framework" />
+    <framework src="SystemConfiguration.framework" />
+    <framework src="CoreTelephony.framework" />
+     <framework src="AssetsLibrary.framework" />
+     <framework src="MobileCoreServices.framework" />
+     <framework src="CoreGraphics.framework" />
+     <framework src="AVFoundation.framework" />
+    <framework src="QuartzCore.framework" />
 
 </platform>
 
