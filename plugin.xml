@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     id="com.fortune.edgecamera"
-    version="0.0.1">
+    version="1.0.0">
 
 <name>Edge detection camera</name>
 <description>PhoneGap plugin to support a custom edge detection camera</description>
 <author>Brian Mwadime and others</author>
+<repo>https://github.com/brianmwadime/phonegap_edge_camera.git</repo>
+<issue>https://github.com/brianmwadime/phonegap_edge_camera/issues</issue>
 
 <info>
     Edge detection plugin
@@ -16,10 +18,6 @@
 <js-module src="www/js/edge_camera.js" name="EdgeCamera">
     <clobbers target="navigator.EdgeCamera" />
 </js-module>
-
-<engines>
-    <engine name="cordova" version=">=3.1.0" />
-</engines>
 
 <platform name="ios">
 
@@ -37,7 +35,7 @@
     <source-file src="platforms/ios/EdgeCamera/Classes/ViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.h" />
-    <resource-file src="platforms/ios/EdgeCamera/Classes/Main.storyboard" />
+    <resource-file src="platforms/ios/EdgeCamera/Classes/ViewController.xib" />
 
 </platform>
 

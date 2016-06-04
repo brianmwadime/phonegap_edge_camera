@@ -10,6 +10,10 @@
 
 @implementation EdgeCamera
 
+- (void)execute:(CDVInvokedUrlCommand *)command {
+    [self takePicture:command];
+}
+
 // Cordova command method
 -(void) takePicture:(CDVInvokedUrlCommand *)command {
     
