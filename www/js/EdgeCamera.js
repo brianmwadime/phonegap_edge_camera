@@ -192,4 +192,3 @@ edgeCameraExport.takePicture = function(successCallback, errorCallback, options)
 module.exports = edgeCameraExport;
 
 });
-
