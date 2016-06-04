@@ -16,7 +16,7 @@
 </info>
 
 <js-module src="www/js/edge_camera.js" name="EdgeCamera">
-    <clobbers target="navigator.EdgeCamera" />
+    <clobbers target="cordova.plugins.EdgeCamera" />
 </js-module>
 
 <platform name="ios">
