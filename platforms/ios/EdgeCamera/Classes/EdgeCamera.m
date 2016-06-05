@@ -10,13 +10,13 @@
 
 @implementation EdgeCamera
 
-- (void)execute:(CDVInvokedUrlCommand *)command {
-    [self takePicture:command];
-}
+// - (void)execute:(CDVInvokedUrlCommand *)command {
+//     [self takePicture:command];
+// }
 
 // Cordova command method
 -(void) takePicture:(CDVInvokedUrlCommand *)command {
-
+    NSLog(@"EdgeCamera");
     // Set the hasPendingOperation field to prevent the webview from crashing
     self.hasPendingOperation = YES;
 
