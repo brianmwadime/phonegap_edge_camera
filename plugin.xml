@@ -38,7 +38,7 @@
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator.png" />
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator@2x.png" />
 
-    <resource-file src="platforms/ios/EdgeCamera/Classes/ViewController.xib" />
+    <resource-file src="platforms/ios/EdgeCamera/Classes/Main.storyboard" />
 
     <framework src="Foundation.framework" />
     <framework src="SystemConfiguration.framework" />

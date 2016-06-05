@@ -21,6 +21,25 @@
 
 @end
 
+static NSString* toBase64(NSData* data) {
+    SEL s1 = NSSelectorFromString(@"cdv_base64EncodedString");
+    SEL s2 = NSSelectorFromString(@"base64EncodedString");
+    SEL s3 = NSSelectorFromString(@"base64EncodedStringWithOptions:");
+
+    if ([data respondsToSelector:s1]) {
+        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s1];
+        return func(data, s1);
+    } else if ([data respondsToSelector:s2]) {
+        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s2];
+        return func(data, s2);
+    } else if ([data respondsToSelector:s3]) {
+        NSString* (*func)(id, SEL, NSUInteger) = (void *)[data methodForSelector:s3];
+        return func(data, s3, 0);
+    } else {
+        return nil;
+    }
+}
+
 @implementation ViewController
 
 #pragma mark -
@@ -132,21 +151,35 @@
 
     [self.cameraViewController captureImageWithCompletionHander:^(NSString *imageFilePath)
     {
-        UIImageView *captureImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:imageFilePath]];
-        captureImageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-        captureImageView.frame = CGRectOffset(self.view.bounds, 0, self.view.bounds.size.height);
-        captureImageView.alpha = 1.0;
-        captureImageView.contentMode = UIViewContentModeScaleAspectFit;
-        captureImageView.userInteractionEnabled = YES;
-        [self.view addSubview:captureImageView];
+//        UIImageView *captureImageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:imageFilePath]];
+//        captureImageView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+//        captureImageView.frame = CGRectOffset(self.view.bounds, 0, self.view.bounds.size.height);
+//        captureImageView.alpha = 1.0;
+//        captureImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        captureImageView.userInteractionEnabled = YES;
+//        [self.view addSubview:captureImageView];
 
-        UITapGestureRecognizer *dismissTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPreview:)];
-        [captureImageView addGestureRecognizer:dismissTap];
+//        UITapGestureRecognizer *dismissTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPreview:)];
+//        [captureImageView addGestureRecognizer:dismissTap];
+//
+//        [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^
+//        {
+//            captureImageView.frame = self.view.bounds;
+//        } completion:nil];
 
-        [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:0.7 options:UIViewAnimationOptionAllowUserInteraction animations:^
-        {
-            captureImageView.frame = self.view.bounds;
-        } completion:nil];
+        // Get a reference to the captured image
+        UIImage* image = [UIImage imageWithContentsOfFile:imageFilePath];
+
+
+        // Get the image data (blocking; around 1 second)
+        NSData* imageData = UIImagePNGRepresentation(image);
+
+        // Write the data to the file
+//        [imageData writeToFile:imagePath atomically:YES];
+
+
+        // Tell the plugin class that we're finished processing the image
+        [self.plugin capturedImageWithPath:toBase64(imageData)];
     }];
 }
 
