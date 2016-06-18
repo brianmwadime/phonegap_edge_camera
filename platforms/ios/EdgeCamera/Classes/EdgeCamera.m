@@ -8,6 +8,31 @@
 
 #import "EdgeCamera.h"
 
+#ifndef __CORDOVA_4_0_0
+#import <Cordova/NSData+Base64.h>
+#endif
+
+#define CDV_PHOTO_PREFIX @"cdv_photo_"
+
+static NSString* toBase64(NSData* data) {
+    SEL s1 = NSSelectorFromString(@"cdv_base64EncodedString");
+    SEL s2 = NSSelectorFromString(@"base64EncodedString");
+    SEL s3 = NSSelectorFromString(@"base64EncodedStringWithOptions:0");
+
+    if ([data respondsToSelector:s1]) {
+        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s1];
+        return func(data, s1);
+    } else if ([data respondsToSelector:s2]) {
+        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s2];
+        return func(data, s2);
+    } else if ([data respondsToSelector:s3]) {
+        NSString* (*func)(id, SEL, NSUInteger) = (void *)[data methodForSelector:s3];
+        return func(data, s3, 0);
+    } else {
+        return nil;
+    }
+}
+
 @implementation EdgeCamera
 
 // - (void)execute:(CDVInvokedUrlCommand *)command {
@@ -35,8 +60,8 @@
 }
 
 // // Method called by the overlay when the image is ready to be sent back to the web view
- -(void) capturedImageWithPath:(NSString*)imagePath {
-     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:imagePath] callbackId:self.latestCommand.callbackId];
+ -(void) capturedImageWithPath:(NSData*)imageData {
+     [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:toBase64(imageData)] callbackId:self.latestCommand.callbackId];
 
      // Unset the self.hasPendingOperation property
      self.hasPendingOperation = NO;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-edgecamera"
-    version="1.7.0">
+    version="1.8.0">
 
 <name>Edge detection camera</name>
 <description>Cordova plugin to support a custom edge detection camera</description>
@@ -28,8 +28,10 @@
 
     <!-- core CustomCamera header and source files -->
     <header-file src="platforms/ios/EdgeCamera/Classes/EdgeCamera.h" />
+    <header-file src="platforms/ios/EdgeCamera/Classes/NSData+Base64.h" />
     <header-file src="platforms/ios/EdgeCamera/Classes/ViewController.h" />
     <source-file src="platforms/ios/EdgeCamera/Classes/EdgeCamera.m" />
+    <header-file src="platforms/ios/EdgeCamera/Classes/NSData+Base64.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/ViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.h" />

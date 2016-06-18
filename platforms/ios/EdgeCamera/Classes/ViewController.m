@@ -7,8 +7,9 @@
 //
 #import "EdgeCamera.h"
 #import "ViewController.h"
-
 #import "IPDFCameraViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @interface ViewController ()
 
@@ -20,25 +21,6 @@
 - (IBAction)captureButton:(id)sender;
 
 @end
-
-static NSString* toBase64(NSData* data) {
-    SEL s1 = NSSelectorFromString(@"cdv_base64EncodedString");
-    SEL s2 = NSSelectorFromString(@"base64EncodedString");
-    SEL s3 = NSSelectorFromString(@"base64EncodedStringWithOptions:");
-
-    if ([data respondsToSelector:s1]) {
-        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s1];
-        return func(data, s1);
-    } else if ([data respondsToSelector:s2]) {
-        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s2];
-        return func(data, s2);
-    } else if ([data respondsToSelector:s3]) {
-        NSString* (*func)(id, SEL, NSUInteger) = (void *)[data methodForSelector:s3];
-        return func(data, s3, 0);
-    } else {
-        return nil;
-    }
-}
 
 @implementation ViewController
 
@@ -172,14 +154,14 @@ static NSString* toBase64(NSData* data) {
 
 
         // Get the image data (blocking; around 1 second)
-        NSData* imageData = UIImagePNGRepresentation(image);
+        NSData* imageData = UIImageJPEGRepresentation(image, 0.8); //NGRepresentation(image);
 
         // Write the data to the file
-//        [imageData writeToFile:imagePath atomically:YES];
+        [imageData writeToFile:imageFilePath atomically:YES];
 
 
         // Tell the plugin class that we're finished processing the image
-        [self.plugin capturedImageWithPath:toBase64(imageData)];
+        [self.plugin capturedImageWithPath:imageData];
     }];
 }
 

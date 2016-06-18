@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-edgecamera",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Cordova plugin to support a custom edge detection camera",
   "cordova": {
     "id": "cordova-plugin-edgecamera",
