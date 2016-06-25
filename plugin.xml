@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-edgecamera"
-    version="1.8.0">
+    version="1.9.0">
 
 <name>Edge detection camera</name>
 <description>Cordova plugin to support a custom edge detection camera</description>
@@ -39,6 +39,12 @@
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/capture_button.imageset/capture_button@2x.png" />
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator.png" />
     <source-file src="platforms/ios/EdgeCamera/Images.xcassets/focusIndicator.imageset/focusIndicator@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/closecamera.imageset/closecamera@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/caret.imageset/caret@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/flashoff.imageset/flashoff@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/flashon.imageset/flashon@2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/ic_keyboard_arrow_down_white_48pt.imageset/ic_keyboard_arrow_down_white_48pt_2x.png" />
+    <source-file src="platforms/ios/EdgeCamera/Images.xcassets/ic_keyboard_arrow_down_white_48pt.imageset/ic_keyboard_arrow_down_white_48pt_3x.png" />
 
     <resource-file src="platforms/ios/EdgeCamera/Classes/Main.storyboard" />
 

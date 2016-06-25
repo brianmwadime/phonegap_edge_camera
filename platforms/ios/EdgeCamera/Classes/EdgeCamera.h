@@ -17,6 +17,7 @@
 
 // Create and override some properties and methods (these will be explained later)
 -(void) capturedImageWithPath:(NSData*)imageData;
+-(void) dismissCamera;
 @property (strong, nonatomic) ViewController* overlay;
 @property (strong, nonatomic) CDVInvokedUrlCommand* latestCommand;
 @property (readwrite, assign) BOOL hasPendingOperation;

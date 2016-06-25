@@ -2,7 +2,7 @@
 //  EdgeCamera.m
 //  EdgeCamera
 //
-//  Created by Audrey Cheng on 31/05/2016.
+//  Created by Brian Mwadime on 31/05/2016.
 //
 //
 
@@ -57,6 +57,11 @@ static NSString* toBase64(NSData* data) {
 
     // Display the view.  This will "slide up" a modal view from the bottom of the screen.
     [weakSelf.viewController presentViewController:self.overlay animated:YES completion:nil];
+}
+
+-(void)dismissCamera{
+    __weak EdgeCamera* weakSelf = self;
+    [weakSelf.overlay dismissViewControllerAnimated:YES completion:nil];
 }
 
 // // Method called by the overlay when the image is ready to be sent back to the web view

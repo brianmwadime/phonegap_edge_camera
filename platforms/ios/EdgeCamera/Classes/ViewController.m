@@ -19,6 +19,7 @@
 - (IBAction)focusGesture:(id)sender;
 
 - (IBAction)captureButton:(id)sender;
+- (IBAction)dismissButton:(id)sender;
 
 @end
 
@@ -33,6 +34,12 @@
 
     [self.cameraViewController setupCameraView];
     [self.cameraViewController setEnableBorderDetection:YES];
+    
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(filterToggle)];
+    singleTap.numberOfTapsRequired = 1;
+    self.titleLabel.userInteractionEnabled = YES;
+    [self.titleLabel addGestureRecognizer:singleTap];
+    
     [self updateTitleLabel];
 }
 
@@ -86,12 +93,12 @@
 - (IBAction)borderDetectToggle:(id)sender
 {
     BOOL enable = !self.cameraViewController.isBorderDetectionEnabled;
-    [self changeButton:sender targetTitle:(enable) ? @"CROP On" : @"CROP Off" toStateEnabled:enable];
+//    [self changeButton:sender targetTitle:(enable) ? @"CROP On" : @"CROP Off" toStateEnabled:enable];
     self.cameraViewController.enableBorderDetection = enable;
     [self updateTitleLabel];
 }
 
-- (IBAction)filterToggle:(id)sender
+- (void)filterToggle
 {
     [self.cameraViewController setCameraViewType:(self.cameraViewController.cameraViewType == IPDFCameraViewTypeBlackAndWhite) ? IPDFCameraViewTypeNormal : IPDFCameraViewTypeBlackAndWhite];
     [self updateTitleLabel];
@@ -100,7 +107,7 @@
 - (IBAction)torchToggle:(id)sender
 {
     BOOL enable = !self.cameraViewController.isTorchEnabled;
-    [self changeButton:sender targetTitle:(enable) ? @"FLASH On" : @"FLASH Off" toStateEnabled:enable];
+    [self changeButton:sender toStateEnabled:enable];
     self.cameraViewController.enableTorch = enable;
 }
 
@@ -112,15 +119,29 @@
     animation.subtype = kCATransitionFromBottom;
     animation.duration = 0.35;
     [self.titleLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
-
-    NSString *filterMode = (self.cameraViewController.cameraViewType == IPDFCameraViewTypeBlackAndWhite) ? @"TEXT FILTER" : @"COLOR FILTER";
-    self.titleLabel.text = [filterMode stringByAppendingFormat:@" | %@",(self.cameraViewController.isBorderDetectionEnabled)?@"AUTOCROP On":@"AUTOCROP Off"];
+    
+    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+    attachment.image = [UIImage imageNamed:@"caret"];
+    attachment.bounds = CGRectMake(0, -8, 25, 25);
+    NSMutableAttributedString *attachmentString = [[NSMutableAttributedString alloc] initWithAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+    
+    NSString *filterMode = (self.cameraViewController.cameraViewType == IPDFCameraViewTypeBlackAndWhite) ? @"Grayscale " : @"Color ";
+    
+    NSMutableAttributedString *myFilterString= [[NSMutableAttributedString alloc] initWithString:filterMode];
+    
+    [myFilterString appendAttributedString:attachmentString];
+    
+    self.titleLabel.attributedText = myFilterString;
+//    self.titleLabel.text = [filterMode stringByAppendingFormat:@" | %@",(self.cameraViewController.isBorderDetectionEnabled)?@"AUTOCROP On":@"AUTOCROP Off"];
 }
 
-- (void)changeButton:(UIButton *)button targetTitle:(NSString *)title toStateEnabled:(BOOL)enabled
+- (void)changeButton:(UIButton *)button toStateEnabled:(BOOL)enabled
 {
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:(enabled) ? [UIColor colorWithRed:1 green:0.81 blue:0 alpha:1] : [UIColor whiteColor] forState:UIControlStateNormal];
+    if(enabled){
+        button.selected = YES;
+    }else{
+        button.selected = NO;
+    }
 }
 
 
@@ -163,6 +184,14 @@
         // Tell the plugin class that we're finished processing the image
         [self.plugin capturedImageWithPath:imageData];
     }];
+}
+
+-(void) dismissButton:(id)sender{
+    [self.plugin dismissCamera];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 - (void)dismissPreview:(UITapGestureRecognizer *)dismissTap
