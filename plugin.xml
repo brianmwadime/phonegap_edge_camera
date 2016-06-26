@@ -31,6 +31,10 @@
     <header-file src="platforms/ios/EdgeCamera/Classes/NSData+Base64.h" />
     <header-file src="platforms/ios/EdgeCamera/Classes/ViewController.h" />
     <source-file src="platforms/ios/EdgeCamera/Classes/EdgeCamera.m" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/MAConstants.h" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/MAConstants.m" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/MADrawRect.h" />
+    <source-file src="platforms/ios/EdgeCamera/Classes/MADrawRect.m" />
     <header-file src="platforms/ios/EdgeCamera/Classes/NSData+Base64.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/ViewController.m" />
     <source-file src="platforms/ios/EdgeCamera/Classes/IPDFCameraViewController.m" />
