@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-edgecamera"
-    version="1.9.0">
+    version="2.0.0">
 
 <name>Edge detection camera</name>
 <description>Cordova plugin to support a custom edge detection camera</description>
