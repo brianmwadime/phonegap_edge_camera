@@ -1,6 +1,7 @@
 ---
 title: EdgeCamera
-description: Take pictures with the device camera and automatically crop them. Based of [![IPDFCameraViewController](https://github.com/mmackh/IPDFCameraViewController)]
+description: Take pictures with the device camera and automatically crop them. 
+Based of [IPDFCameraViewController](https://github.com/mmackh/IPDFCameraViewController)
 ---
 
 # phonegap_edge_camera
