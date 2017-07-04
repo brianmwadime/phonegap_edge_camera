@@ -19,6 +19,15 @@
 
 #import <GLKit/GLKit.h>
 
+@interface IPDFRectangleFeature : NSObject
+
+@property (nonatomic) CGPoint topLeft;
+@property (nonatomic) CGPoint topRight;
+@property (nonatomic) CGPoint bottomRight;
+@property (nonatomic) CGPoint bottomLeft;
+
+@end @implementation IPDFRectangleFeature @end
+
 @interface IPDFCameraViewController () <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (nonatomic,strong) AVCaptureSession *captureSession;
@@ -201,7 +210,7 @@
             [EAGLContext setCurrentContext:_context];
         }
         [_glkView bindDrawable];
-        [_coreImageContext drawImage:image inRect:self.bounds fromRect:[image extent]];
+        [_coreImageContext drawImage:image inRect:self.bounds fromRect:[self cropRectForPreviewImage:image]];
         [_glkView display];
 
         if(_intrinsicContentSize.width != image.extent.size.width) {
@@ -223,6 +232,20 @@
     return _intrinsicContentSize;
 }
 
+- (CGRect)cropRectForPreviewImage:(CIImage *)image
+{
+    CGFloat cropWidth = image.extent.size.width;
+    CGFloat cropHeight = image.extent.size.height;
+    if (image.extent.size.width>image.extent.size.height) {
+        cropWidth = image.extent.size.width;
+        cropHeight = cropWidth*self.bounds.size.height/self.bounds.size.width;
+    }else if (image.extent.size.width<image.extent.size.height) {
+        cropHeight = image.extent.size.height;
+        cropWidth = cropHeight*self.bounds.size.width/self.bounds.size.height;
+    }
+    return CGRectInset(image.extent, (image.extent.size.width-cropWidth)/2, (image.extent.size.height-cropHeight)/2);
+}
+
 - (void)enableBorderDetectFrame
 {
     _borderDetectFrame = YES;
@@ -230,7 +253,7 @@
 
 - (CIImage *)drawHighlightOverlayForPoints:(CIImage *)image topLeft:(CGPoint)topLeft topRight:(CGPoint)topRight bottomLeft:(CGPoint)bottomLeft bottomRight:(CGPoint)bottomRight
 {
-    CIImage *overlay = [CIImage imageWithColor:[CIColor colorWithRed:0 green:0 blue:1 alpha:0.3]];
+    CIImage *overlay = [CIImage imageWithColor:[CIColor colorWithRed:0.9 green:0 blue:0.5 alpha:0.4]];
     overlay = [overlay imageByCroppingToRect:image.extent];
     overlay = [overlay imageByApplyingFilter:@"CIPerspectiveTransformWithExtent" withInputParameters:@{@"inputExtent":[CIVector vectorWithCGRect:image.extent],@"inputTopLeft":[CIVector vectorWithCGPoint:topLeft],@"inputTopRight":[CIVector vectorWithCGPoint:topRight],@"inputBottomLeft":[CIVector vectorWithCGPoint:bottomLeft],@"inputBottomRight":[CIVector vectorWithCGPoint:bottomRight]}];
 
@@ -487,7 +510,7 @@ void saveCGImageAsJPEGToFilePath(CGImageRef imageRef, NSString *filePath)
     return detector;
 }
 
-- (CIRectangleFeature *)biggestRectangleInRectangles:(NSArray *)rectangles
+- (CIRectangleFeature *)_biggestRectangleInRectangles:(NSArray *)rectangles
 {
     if (![rectangles count]) return nil;
 
@@ -515,6 +538,55 @@ void saveCGImageAsJPEGToFilePath(CGImageRef imageRef, NSString *filePath)
     }
 
     return biggestRectangle;
+}
+
+- (CIRectangleFeature *)biggestRectangleInRectangles:(NSArray *)rectangles
+{
+    CIRectangleFeature *rectangleFeature = [self _biggestRectangleInRectangles:rectangles];
+
+    if (!rectangleFeature) return nil;
+
+    // Credit: http://stackoverflow.com/a/20399468/1091044
+
+    NSArray *points = @[[NSValue valueWithCGPoint:rectangleFeature.topLeft],[NSValue valueWithCGPoint:rectangleFeature.topRight],[NSValue valueWithCGPoint:rectangleFeature.bottomLeft],[NSValue valueWithCGPoint:rectangleFeature.bottomRight]];
+
+    CGPoint min = [points[0] CGPointValue];
+    CGPoint max = min;
+    for (NSValue *value in points)
+    {
+        CGPoint point = [value CGPointValue];
+        min.x = fminf(point.x, min.x);
+        min.y = fminf(point.y, min.y);
+        max.x = fmaxf(point.x, max.x);
+        max.y = fmaxf(point.y, max.y);
+    }
+
+    CGPoint center =
+    {
+        0.5f * (min.x + max.x),
+        0.5f * (min.y + max.y),
+    };
+
+    NSNumber *(^angleFromPoint)(id) = ^(NSValue *value)
+    {
+        CGPoint point = [value CGPointValue];
+        CGFloat theta = atan2f(point.y - center.y, point.x - center.x);
+        CGFloat angle = fmodf(M_PI - M_PI_4 + theta, 2 * M_PI);
+        return @(angle);
+    };
+
+    NSArray *sortedPoints = [points sortedArrayUsingComparator:^NSComparisonResult(id a, id b)
+    {
+        return [angleFromPoint(a) compare:angleFromPoint(b)];
+    }];
+
+    IPDFRectangleFeature *rectangleFeatureMutable = [IPDFRectangleFeature new];
+    rectangleFeatureMutable.topLeft = [sortedPoints[3] CGPointValue];
+    rectangleFeatureMutable.topRight = [sortedPoints[2] CGPointValue];
+    rectangleFeatureMutable.bottomRight = [sortedPoints[1] CGPointValue];
+    rectangleFeatureMutable.bottomLeft = [sortedPoints[0] CGPointValue];
+
+    return (id)rectangleFeatureMutable;
 }
 
 BOOL rectangleDetectionConfidenceHighEnough(float confidence)

@@ -14,23 +14,35 @@
 
 #define CDV_PHOTO_PREFIX @"cdv_photo_"
 
-static NSString* toBase64(NSData* data) {
-    SEL s1 = NSSelectorFromString(@"cdv_base64EncodedString");
-    SEL s2 = NSSelectorFromString(@"base64EncodedString");
-    SEL s3 = NSSelectorFromString(@"base64EncodedStringWithOptions:0");
+static NSString* toBase64(NSData* theData) {
+  const uint8_t* input = (const uint8_t*)[theData bytes];
+  NSInteger length = [theData length];
 
-    if ([data respondsToSelector:s1]) {
-        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s1];
-        return func(data, s1);
-    } else if ([data respondsToSelector:s2]) {
-        NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s2];
-        return func(data, s2);
-    } else if ([data respondsToSelector:s3]) {
-        NSString* (*func)(id, SEL, NSUInteger) = (void *)[data methodForSelector:s3];
-        return func(data, s3, 0);
-    } else {
-        return nil;
+  static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+  NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
+  uint8_t* output = (uint8_t*)data.mutableBytes;
+
+  NSInteger i;
+  for (i=0; i < length; i += 3) {
+    NSInteger value = 0;
+    NSInteger j;
+    for (j = i; j < (i + 3); j++) {
+      value <<= 8;
+
+      if (j < length) {
+        value |= (0xFF & input[j]);
+      }
     }
+
+    NSInteger theIndex = (i / 3) * 4;
+    output[theIndex + 0] =                    table[(value >> 18) & 0x3F];
+    output[theIndex + 1] =                    table[(value >> 12) & 0x3F];
+    output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
+    output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
+  }
+
+  return [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 }
 
 @implementation EdgeCamera
