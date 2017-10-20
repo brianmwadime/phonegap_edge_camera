@@ -1,4 +1,6 @@
 ---
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/brianmwadime/phonegap_edge_camera.svg)](https://greenkeeper.io/)
 title: EdgeCamera
 description: Take pictures with the device camera and automatically crop them. 
 ---
